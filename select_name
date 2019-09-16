@@ -1,0 +1,73 @@
+#include "pch.h"
+#include <iostream>
+#include<cstdio>
+#include<string>
+#include<cctype>
+#include<fstream>
+#include<cstdlib>
+using namespace std;
+
+class Address {
+public:
+	string province; //省
+	string city; //市/直辖市
+	string county; //区/县/县级市
+	string street; //街道/镇/乡
+	string detailaddr; //详细地址
+	Address() {
+		province = " "; city = " "; county = " "; street = " "; detailaddr = " ";
+	};
+};
+
+class Person {
+public:
+	string total;
+	string name;
+	string telnum;
+	Address address;
+	Person() {
+		name = " ";  telnum = " ";
+	};
+};
+int main()
+{
+	Person addr[50];
+	ifstream inFile;
+	inFile.open("c:\\vs\\1.txt", ios::in);
+	if (!inFile) {
+		cout << "error opening source file." << endl;
+	}
+	else {
+		cout << "success" << endl;
+	}
+	ofstream outFile("2.txt", ios::out);
+	if (!outFile) {
+		inFile.close();
+		cout << "error opening destination file." << endl;
+		return 0;
+	}
+	else {
+		cout << "open success" << endl;
+	}
+	string temp;
+	int i = 0;
+	while (getline(inFile, temp)) {
+		addr[i].total = temp;
+		i++;
+	}
+	string c, d, e;
+	int j, l, k;
+	for (j = 0; j < i; j++)
+	{
+		c = addr[j].total;
+		l = c.find(","); k = c.find("1");
+		d = c.substr(0, l);
+		e = c.substr(k, k);
+		cout << e << endl;
+		addr[j].name = d;
+	}
+	for (j = 0; j < i; j++) {
+		outFile << addr[j].name << endl;
+	}
+	return 0;
+}
